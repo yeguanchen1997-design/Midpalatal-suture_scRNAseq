@@ -149,7 +149,7 @@ Methods section. No modifications are required for reproduction.
 ================================================================================
 FILE CONTENTS 
 ================================================================================
-Midpalatal Suture Single-Cell RNA Sequencing Analysis.R   -- Main annotated analysis script
+  Midpalatal_Suture_scRNAseq_Analysis.R   -- Main annotated analysis script
   README.md
   LICENSE                          -- MIT License
 
