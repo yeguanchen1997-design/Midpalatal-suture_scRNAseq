@@ -149,8 +149,8 @@ Methods section. No modifications are required for reproduction.
 ================================================================================
 FILE CONTENTS 
 ================================================================================
-  scRNAseq_analysis.R              -- Main annotated analysis script
-  README(Github).txt               -- This file
+Midpalatal Suture Single-Cell RNA Sequencing Analysis.R   -- Main annotated analysis script
+  README.md
   LICENSE                          -- MIT License
 
   Note: Input data files (barcodes.tsv, features.tsv, matrix.mtx,
