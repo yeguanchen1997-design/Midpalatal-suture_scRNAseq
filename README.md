@@ -7,7 +7,7 @@ This repository contains the R code used for single-cell RNA sequencing (scRNA-s
 mouse midpalatal tissue, as described in the associated manuscript.
 
 NOTE ON DATA PREPROCESSING:
-Raw sequencing data were processed using Cell Ranger 5.0.0 (alignment to GRCm38)
+Raw sequencing data were processed using Cell Ranger 6.1.1 (alignment to GRCm38)
 and quality-controlled using Seurat v5.3.0 (gene filtering: >3 cells; cell
 filtering: 200 < nFeature_RNA < 8,000, nCount_RNA < 60,000, percent.mt < 12%).
 Cell cycle effects were regressed using CellCycleScoring. Clustering was
