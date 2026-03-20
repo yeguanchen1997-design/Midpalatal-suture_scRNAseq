@@ -12,6 +12,7 @@
 # Required input RDS files (place in ./data/rds/):
 #   - palate.rds        : Full annotated Seurat object (all cell types)
 #   - mesenchyme.rds    : Mesenchymal subcluster Seurat object
+#   - cellchat.rds      : CellChat object (ligand-receptor analysis)
 #
 # R version: 4.4.2 (2024-10-31 ucrt)
 # Contact:   yeguanchen@zju.edu.cn
@@ -40,6 +41,7 @@ library(patchwork)
 library(dplyr)
 library(gridExtra)
 library(monocle3)
+library(SingleCellExperiment)
 library(magrittr)
 
 # Bioconductor packages
@@ -135,6 +137,16 @@ for (gene in marker_genes_mesen) {
   print(FeaturePlot(mesenchyme, features = gene, reduction = "umap"))
 }
 
+# Twist1 co-expression with Gli1 (blend plot)
+FeaturePlot(
+  mesenchyme,
+  features    = c("Twist1", "Gli1"),
+  reduction   = "umap",
+  blend       = TRUE,
+  min.cutoff  = c(NA, "q01"),
+  max.cutoff  = c(NA, "q90")
+)
+
 # Twist1 in full palate
 FeaturePlot(palate, features = "Twist1", reduction = "umap")
 
@@ -220,10 +232,33 @@ for (i in seq_along(go_tables)) {
 # ==============================================================================
 
 library(SeuratWrappers)
+library(SingleCellExperiment)
 
-# Convert Seurat mesenchyme object to Monocle3 CellDataSet
-cds <- as.cell_data_set(mesenchyme)
+# Build CellDataSet from raw counts to avoid log-normalized data being used
+counts_matrix <- GetAssayData(mesenchyme, assay = "RNA", slot = "counts")
+cell_metadata <- mesenchyme@meta.data
+gene_metadata <- data.frame(gene_short_name = rownames(counts_matrix),
+                             row.names = rownames(counts_matrix))
+
+cds <- new_cell_data_set(
+  counts_matrix,
+  cell_metadata = cell_metadata,
+  gene_metadata = gene_metadata
+)
+
+# Transfer Seurat UMAP coordinates to preserve original cell layout
+reducedDims(cds)[["UMAP"]] <- Embeddings(mesenchyme, reduction = "umap")
+
+# Preprocess and dimensionality reduction
 cds <- preprocess_cds(cds, num_dim = 30)
+cds <- reduce_dimension(cds, reduction_method = "UMAP",
+                        umap.min_dist = 0.1,
+                        preprocess_method = "PCA")
+
+# Re-assign Seurat UMAP coordinates after reduce_dimension
+reducedDims(cds)[["UMAP"]] <- Embeddings(mesenchyme, reduction = "umap")
+
+# Cluster cells
 cds <- cluster_cells(cds)
 
 # Inspect partitions
