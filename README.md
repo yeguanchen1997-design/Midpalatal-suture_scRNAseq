@@ -84,7 +84,7 @@ Step 6 - Install CellChat:
 ================================================================================
 INPUT DATA
 ================================================================================
-All input data files are available from NCBI GEO (accession: GSE[XXXXXX]).
+All input data files are available from NCBI GEO (accession: GSE325000).
 
 Download the following files from GEO and place them in the indicated
 directories before running the script:
@@ -118,7 +118,7 @@ The demo runs the two most representative steps of the pipeline — a UMAP
 visualization and a CellChat interaction plot — to verify correct installation
 and data loading.
 
-  1. Download palate.rds and cellchat.rds from GEO (accession: GSE[XXXXXX])
+  1. Download palate.rds and cellchat.rds from GEO (accession: GSE325000)
      and place them in ./data/rds/
   2. Open R and run the following:
 
@@ -157,7 +157,7 @@ FILE CONTENTS
 
   Note: Input data files (barcodes.tsv, features.tsv, matrix.mtx,
   palate.rds, mesenchyme.rds, cellchat.rds) are not included in this
-  repository. Download them from GEO (accession: GSE[XXXXXX]) and place
+  repository. Download them from GEO (accession: GSE325000) and place
   them in ./data/raw/ and ./data/rds/ respectively.
 
 ================================================================================
