@@ -137,16 +137,6 @@ for (gene in marker_genes_mesen) {
   print(FeaturePlot(mesenchyme, features = gene, reduction = "umap"))
 }
 
-# Twist1 co-expression with Gli1 (blend plot)
-FeaturePlot(
-  mesenchyme,
-  features    = c("Twist1", "Gli1"),
-  reduction   = "umap",
-  blend       = TRUE,
-  min.cutoff  = c(NA, "q01"),
-  max.cutoff  = c(NA, "q90")
-)
-
 # Twist1 in full palate
 FeaturePlot(palate, features = "Twist1", reduction = "umap")
 
