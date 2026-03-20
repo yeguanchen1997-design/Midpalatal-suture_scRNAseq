@@ -295,10 +295,16 @@ trajectory_genes <- c("Mfap5", "Osr2", "Tnmd", "Dkk2", "Tnc", "Alpl")
 # Add gene_short_name to rowData (required for plot_genes_in_pseudotime)
 rowData(cds)$gene_short_name <- rownames(rowData(cds))
 
-plot_genes_in_pseudotime(
-  cds[trajectory_genes, ],
-  color_cells_by = "pseudotime"
-)
+# Plot in 2 rows x 3 columns without legend
+plots <- lapply(trajectory_genes, function(gene) {
+  plot_genes_in_pseudotime(
+    cds[gene, ],
+    color_cells_by = "pseudotime",
+    min_expr = 0.5
+  ) + theme(legend.position = "none")
+})
+
+wrap_plots(plots, nrow = 2, ncol = 3)
 
 
 # ==============================================================================
