@@ -1,13 +1,14 @@
-# Midpalatal Suture Single-Cell RNA Sequencing Analysis Pipeline
+# Single-Cell RNA Sequencing Analysis Pipeline
 
 ================================================================================
 OVERVIEW
 ================================================================================
-This repository contains the R code used for single-cell RNA sequencing (scRNA-seq) analysis of
+This repository contains the R code, raw count matrix data, and pre-processed
+Seurat objects used for single-cell RNA sequencing (scRNA-seq) analysis of
 mouse midpalatal tissue, as described in the associated manuscript.
 
 NOTE ON DATA PREPROCESSING:
-Raw sequencing data were processed using Cell Ranger 6.1.1 (alignment to GRCm38)
+Raw sequencing data were processed using Cell Ranger 5.0.0 (alignment to GRCm38)
 and quality-controlled using Seurat v5.3.0 (gene filtering: >3 cells; cell
 filtering: 200 < nFeature_RNA < 8,000, nCount_RNA < 60,000, percent.mt < 12%).
 Cell cycle effects were regressed using CellCycleScoring. Clustering was
@@ -33,19 +34,20 @@ R version:
   - R 4.4.2 (2024-10-31 ucrt)
 
 Required R packages and versions:
-  - Seurat           v5.3.0
-  - SeuratWrappers   v0.4.0
-  - CellChat         v1.6.1
-  - monocle3         v1.4.26
-  - clusterProfiler  v4.14.6
-  - org.Mm.eg.db     v3.20.0 (Bioconductor)
-  - ggplot2          v4.0.0
-  - dplyr            v1.1.4
-  - patchwork        v1.3.2
-  - ggalluvial       v0.12.5
-  - igraph           v2.2.0
-  - gridExtra        v2.3
-  - magrittr         v2.0.3
+  - Seurat              v5.3.0
+  - SeuratWrappers      v0.4.0
+  - CellChat            v1.6.1
+  - monocle3            v1.4.26
+  - SingleCellExperiment v1.26.0 (Bioconductor)
+  - clusterProfiler     v4.14.6
+  - org.Mm.eg.db        v3.20.0 (Bioconductor)
+  - ggplot2             v4.0.0
+  - dplyr               v1.1.4
+  - patchwork           v1.3.2
+  - ggalluvial          v0.12.5
+  - igraph              v2.2.0
+  - gridExtra           v2.3
+  - magrittr            v2.0.3
 
 Non-standard hardware:
   - None required
@@ -66,7 +68,7 @@ Step 3 - Install SeuratWrappers:
 Step 4 - Install Bioconductor packages:
   if (!requireNamespace("BiocManager", quietly = TRUE))
       install.packages("BiocManager")
-  BiocManager::install(c("clusterProfiler", "org.Mm.eg.db"))
+  BiocManager::install(c("clusterProfiler", "org.Mm.eg.db", "SingleCellExperiment"))
 
 Step 5 - Install monocle3:
   BiocManager::install(c("BiocGenerics","DelayedArray","DelayedMatrixStats",
@@ -82,7 +84,7 @@ Step 6 - Install CellChat:
 ================================================================================
 INPUT DATA
 ================================================================================
-All input data files are available from NCBI GEO (accession: GSE325000).
+All input data files are available from NCBI GEO (accession: GSE[XXXXXX]).
 
 Download the following files from GEO and place them in the indicated
 directories before running the script:
@@ -116,7 +118,7 @@ The demo runs the two most representative steps of the pipeline — a UMAP
 visualization and a CellChat interaction plot — to verify correct installation
 and data loading.
 
-  1. Download palate.rds and cellchat.rds from GEO (accession: GSE325000)
+  1. Download palate.rds and cellchat.rds from GEO (accession: GSE[XXXXXX])
      and place them in ./data/rds/
   2. Open R and run the following:
 
@@ -149,13 +151,13 @@ Methods section. No modifications are required for reproduction.
 ================================================================================
 FILE CONTENTS 
 ================================================================================
-  Midpalatal_Suture_scRNAseq_Analysis.R   -- Main annotated analysis script
-  README.md
+  scRNAseq_analysis.R              -- Main annotated analysis script
+  README(Github).txt               -- This file
   LICENSE                          -- MIT License
 
   Note: Input data files (barcodes.tsv, features.tsv, matrix.mtx,
   palate.rds, mesenchyme.rds, cellchat.rds) are not included in this
-  repository. Download them from GEO (accession: GSE325000) and place
+  repository. Download them from GEO (accession: GSE[XXXXXX]) and place
   them in ./data/raw/ and ./data/rds/ respectively.
 
 ================================================================================
@@ -175,4 +177,3 @@ Rescues Maxillary Hypoplasia.
 CONTACT
 ================================================================================
 For questions, please contact: yeguanchen@zju.edu.cn
-
