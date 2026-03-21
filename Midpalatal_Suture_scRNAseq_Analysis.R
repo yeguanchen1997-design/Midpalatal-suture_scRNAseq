@@ -114,10 +114,10 @@ mesenchyme.markers <- FindAllMarkers(
   logfc.threshold = 0.25
 )
 
-# Top 10 markers per subcluster
-top10MSC <- mesenchyme.markers %>%
+# Top 15 markers per subcluster
+top15MSC <- mesenchyme.markers %>%
   group_by(cluster) %>%
-  top_n(n = 10, wt = avg_log2FC)
+  top_n(n = 15, wt = avg_log2FC)
 
 # Violin plots for key mesenchymal marker genes across subclusters
 VlnPlot(
