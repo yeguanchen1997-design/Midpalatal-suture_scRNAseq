@@ -5,23 +5,18 @@ OVERVIEW
 ================================================================================
 This repository contains the R code, raw count matrix data, and pre-processed
 Seurat objects used for single-cell RNA sequencing (scRNA-seq) analysis of
-mouse midpalatal tissue, as described in the associated manuscript.
-
-NOTE ON DATA PREPROCESSING:
-Raw sequencing data were processed using Cell Ranger 5.0.0 (alignment to GRCm38)
-and quality-controlled using Seurat v5.3.0 (gene filtering: >3 cells; cell
-filtering: 200 < nFeature_RNA < 8,000, nCount_RNA < 60,000, percent.mt < 12%).
-Cell cycle effects were regressed using CellCycleScoring. Clustering was
-performed with FindNeighbors (dims=1:20) and FindClusters (resolution=0.8),
-followed by UMAP visualization. These steps are described in full in the Methods
-section of the manuscript. The resulting annotated Seurat objects are provided
-directly as .rds files for reproducibility.
+mouse midpalatal suture tissue, as described in the associated manuscript.
 
 The analysis script (scRNAseq_analysis.R) covers:
-  - Cell type marker visualization (palate + mesenchymal subclusters)
-  - GO Biological Process enrichment analysis (clusterProfiler)
-  - Pseudotime trajectory inference (Monocle 3)
-  - Ligand-receptor interaction analysis (CellChat)
+  - Data loading, quality control, and preprocessing (Sections 1-2)
+  - Cell type annotation based on canonical marker gene expression (Section 2)
+  - Cell type marker visualization — full palate and mesenchymal subclusters
+    (Sections 4-5)
+  - Ligand-receptor interaction analysis (CellChat) (Section 6)
+
+NOTE: Sections 1-2 reproduce the full QC and annotation pipeline from raw
+count matrices. Users who wish to reproduce downstream analysis only may
+start from Section 3 using the pre-processed RDS objects provided on GEO.
 
 ================================================================================
 SYSTEM REQUIREMENTS
@@ -34,20 +29,18 @@ R version:
   - R 4.4.2 (2024-10-31 ucrt)
 
 Required R packages and versions:
-  - Seurat              v5.3.0
-  - SeuratWrappers      v0.4.0
-  - CellChat            v1.6.1
-  - monocle3            v1.4.26
-  - SingleCellExperiment v1.26.0 (Bioconductor)
-  - clusterProfiler     v4.14.6
-  - org.Mm.eg.db        v3.20.0 (Bioconductor)
-  - ggplot2             v4.0.0
-  - dplyr               v1.1.4
-  - patchwork           v1.3.2
-  - ggalluvial          v0.12.5
-  - igraph              v2.2.0
-  - gridExtra           v2.3
-  - magrittr            v2.0.3
+  - Seurat           v5.3.0
+  - CellChat         v1.6.1
+  - clusterProfiler  v4.14.6
+  - org.Mm.eg.db     v3.20.0 (Bioconductor)
+  - ggplot2          v4.0.0
+  - dplyr            v1.1.4
+  - stringr          v1.5.1
+  - patchwork        v1.3.2
+  - ggalluvial       v0.12.5
+  - igraph           v2.2.0
+  - gridExtra        v2.3
+  - magrittr         v2.0.3
 
 Non-standard hardware:
   - None required
@@ -59,27 +52,18 @@ INSTALLATION
 Step 1 - Install R from https://cran.r-project.org/
 
 Step 2 - Install CRAN packages:
-  install.packages(c("Seurat","ggplot2","dplyr","patchwork",
+  install.packages(c("Seurat","ggplot2","dplyr","stringr","patchwork",
                      "ggalluvial","igraph","gridExtra","magrittr"))
 
-Step 3 - Install SeuratWrappers:
-  devtools::install_github("satijalab/seurat-wrappers")
-
-Step 4 - Install Bioconductor packages:
+Step 3 - Install Bioconductor packages:
   if (!requireNamespace("BiocManager", quietly = TRUE))
       install.packages("BiocManager")
-  BiocManager::install(c("clusterProfiler", "org.Mm.eg.db", "SingleCellExperiment"))
+  BiocManager::install(c("clusterProfiler", "org.Mm.eg.db"))
 
-Step 5 - Install monocle3:
-  BiocManager::install(c("BiocGenerics","DelayedArray","DelayedMatrixStats",
-                         "limma","lme4","S4Vectors","SingleCellExperiment",
-                         "SummarizedExperiment","batchelor","HDF5Array",
-                         "terra","ggrastr"))
-  devtools::install_github("cole-trapnell-lab/monocle3")
-
-Step 6 - Install CellChat:
+Step 4 - Install CellChat:
   devtools::install_github("sqjin/CellChat")
 
+Typical installation time: 20-40 minutes
 
 ================================================================================
 INPUT DATA
@@ -141,15 +125,19 @@ Expected output:
 ================================================================================
 INSTRUCTIONS FOR USE
 ================================================================================
-Load the three provided .rds files and run scRNAseq_analysis.R
-in order (Sections 0-7).
+To reproduce the full analysis from raw data:
+  Run Sections 1-2 for QC, preprocessing, and cell type annotation,
+  then continue with Sections 3-7 for downstream analysis.
+
+To reproduce downstream analysis only (from pre-processed objects):
+  Download RDS files from GEO (accession: GSE325000), place them in
+  ./data/rds/, and run from Section 3 onward.
 
 All parameters in the script match exactly those reported in the manuscript
-Methods section. No modifications are required for reproduction.
-
+Methods section.
 
 ================================================================================
-FILE CONTENTS 
+FILE CONTENTS
 ================================================================================
   scRNAseq_analysis.R              -- Main annotated analysis script
   README(Github).txt               -- This file
