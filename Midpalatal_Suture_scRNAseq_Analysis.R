@@ -330,11 +330,6 @@ VlnPlot(mesenchyme,
         pt.size  = 0,
         ncol     = 2)
 
-# Twist1 expression
-FeaturePlot(palate,   features = "Twist1", reduction = "umap")
-VlnPlot(mesenchyme,   features = "Twist1")
-
-
 # ==============================================================================
 # 6. CELLCHAT LIGAND–RECEPTOR INTERACTION ANALYSIS
 # ==============================================================================
