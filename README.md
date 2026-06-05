@@ -127,7 +127,7 @@ INSTRUCTIONS FOR USE
 ================================================================================
 To reproduce the full analysis from raw data:
   Run Sections 1-2 for QC, preprocessing, and cell type annotation,
-  then continue with Sections 3-7 for downstream analysis.
+  then continue with Sections 3-6 for downstream analysis.
 
 To reproduce downstream analysis only (from pre-processed objects):
   Download RDS files from GEO (accession: GSE325000), place them in
